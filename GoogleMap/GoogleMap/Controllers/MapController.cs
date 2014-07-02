@@ -12,7 +12,7 @@ namespace GoogleMap.Controllers
         // GET: /Map/
 
         public ActionResult Index()
-        {
+        {            
             return View();
         }
 

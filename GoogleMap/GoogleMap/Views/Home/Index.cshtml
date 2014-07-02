@@ -25,6 +25,7 @@
                       statusCode: {
                           202: function () {                              
                               //$('label[for=Name]').html("Login Successfull.");
+                              //Session["IsAuthenticated"] = "1";
                               var url = '@Url.Action("Index","Map")';
                               window.location.href = url;
                           },

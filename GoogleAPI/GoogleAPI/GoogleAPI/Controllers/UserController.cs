@@ -26,13 +26,13 @@ namespace GoogleAPI.Controllers
                 responseMessage.ReasonPhrase = "Enter Password.";
                 responseMessage.StatusCode = HttpStatusCode.NotFound;                
             }
-            else if (objuser.UserName != "abc" && objuser.Password != "abc")
+            else if (objuser.UserName == "abc" && objuser.Password == "abc")
             {
-                responseMessage.StatusCode = HttpStatusCode.Unauthorized;                                
+                responseMessage.StatusCode = HttpStatusCode.Accepted;                                                
             }
             else
             {
-                responseMessage.StatusCode = HttpStatusCode.Accepted;                                
+                responseMessage.StatusCode = HttpStatusCode.Unauthorized;                                
             }
             return responseMessage;     
         }
