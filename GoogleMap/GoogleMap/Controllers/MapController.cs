@@ -15,6 +15,5 @@ namespace GoogleMap.Controllers
         {            
             return View();
         }
-
     }
 }
