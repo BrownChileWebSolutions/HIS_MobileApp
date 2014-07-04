@@ -34,22 +34,22 @@
             var user = new Object();
             user.UserName = $('#txtUserName').val();
             user.Password = $('#txtPassword').val();            
-            $.ajax({
-                url: 'http://localhost:5266/api/user/IsAuthorized',
+            $.ajax({                
+                url: '/User/IsAuthorized',
                 type: 'POST',
                 dataType: 'json',
                 data: user,
-                statusCode: {
-                    202: function () {                                              
+                success: function (data)
+                {
+                    if (data.result == "Success")
+                    {                     
                         var url = '@Url.Action("Index","Map")';
-                        window.location.href = url;
-                    },
-                    404: function () {
-                        $('label[for=Name]').html("Enter UserName and Password.");
-                    },
-                    401: function () {
-                        $('label[for=Name]').html("Enter Valid UserName and Password.");
-                    }
+                        window.location.href = url;                        
+                    }                   
+                    else
+                    {                     
+                        $('label[for=Name]').html(data.result);
+                    }                                        
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
                     //console.log("jqXHR= " + jqXHR.responseText + ", status code= " + jqXHR.statusCode + ", errorThrown= " + errorThrown);                        
@@ -82,10 +82,8 @@
 							<h2 class="form-signin-heading">Please sign in</h2>
                             <label for="Name" style="color:red;font-size:16px;" > </label>                            
 							<input  id="txtUserName" type="text" class="form-control" placeholder="UserName" autofocus>
-							<input  id="txtPassword" type="password" class="form-control" placeholder="Password">
-							
-							<button id="btnSave" class="btn btn-lg btn-success btn-block" type="submit">Sign in</button>                            
-                            <!--<input type="button" value="Submit" id="btnSave" class="nxt-btn fild-shadow text-shadow-other">                        -->
+							<input  id="txtPassword" type="password" class="form-control" placeholder="Password">							
+							<button id="btnSave" class="btn btn-lg btn-success btn-block" type="submit">Sign in</button>                                                        
                         </div>
 					  	
 					</div>
