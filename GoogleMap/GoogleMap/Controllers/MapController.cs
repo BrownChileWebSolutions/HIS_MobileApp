@@ -17,11 +17,11 @@ namespace GoogleMap.Controllers
         {            
             return View();
         }
-        public ActionResult Hotel()
+        public ActionResult Hotel(string Latitude, string Longitude)
         {
             List<Hotel> objHotelList = new List<Hotel>();
             Services.HotelService objHotelService = new Services.HotelService();
-            objHotelList = objHotelService.GetHotelList();
+            objHotelList = objHotelService.GetHotelList(Latitude, Longitude);
             return Json(objHotelList, JsonRequestBehavior.AllowGet);
         }
     }

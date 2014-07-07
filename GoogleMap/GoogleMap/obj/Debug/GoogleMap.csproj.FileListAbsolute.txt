@@ -47,5 +47,6 @@ F:\Projects\GoogleMap\GoogleMap\bin\System.Web.Razor.xml
 F:\Projects\GoogleMap\GoogleMap\bin\System.Web.WebPages.xml
 F:\Projects\GoogleMap\GoogleMap\bin\System.Web.WebPages.Deployment.xml
 F:\Projects\GoogleMap\GoogleMap\bin\System.Web.WebPages.Razor.xml
+F:\Projects\GoogleMap\GoogleMap\obj\Debug\GoogleMap.csprojResolveAssemblyReference.cache
 F:\Projects\GoogleMap\GoogleMap\obj\Debug\GoogleMap.dll
 F:\Projects\GoogleMap\GoogleMap\obj\Debug\GoogleMap.pdb

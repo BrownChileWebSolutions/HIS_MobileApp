@@ -38,6 +38,7 @@ namespace GoogleMap.Controllers
                 }
                 else
                 {
+                    Session["UserName"] = objuser.UserName;
                     strmsg = "Success";
                 }
             }           

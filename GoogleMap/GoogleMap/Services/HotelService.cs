@@ -10,8 +10,8 @@ namespace GoogleMap.Services
 {
     public class HotelService
     {
-        List<Hotel> objHotelList = new List<Hotel>();        
-        public List<Hotel> GetHotelList()
+        List<Hotel> objHotelList = new List<Hotel>();
+        public List<Hotel> GetHotelList(string Latitude, string Longitude)
         {            
                System.Data.DataTable sqlDt = new System.Data.DataTable();
                 using (System.Data.SqlClient.SqlConnection sqlCon = new System.Data.SqlClient.SqlConnection(ConfigurationManager.ConnectionStrings["GMapCon"].ConnectionString))
@@ -20,7 +20,7 @@ namespace GoogleMap.Services
                     {
                         sqlCmd.Connection = sqlCon;
                         sqlCmd.CommandType = CommandType.Text;
-                        sqlCmd.CommandText = "select Name,Address,Description,Latitute,Longitude from Hotel order by Name";
+                        sqlCmd.CommandText = "SELECT * FROM (SELECT Name,Address,Description,Latitude,Longitude ,(3959 * acos( cos( radians(" + Latitude + ") ) * cos( radians( Latitude) ) * cos( radians( Longitude ) - radians(" + Longitude + ") ) + sin( radians(" + Latitude + ") ) * sin( radians( Latitude) ) ) ) AS distance  FROM Hotel)  Hoteltbl Where distance < 25 ORDER BY distance ";
                         System.Data.SqlClient.SqlDataAdapter sqlAdapter = new System.Data.SqlClient.SqlDataAdapter(sqlCmd);
                         sqlAdapter.SelectCommand = sqlCmd;
                         sqlAdapter.Fill(sqlDt);
@@ -31,7 +31,7 @@ namespace GoogleMap.Services
                                 Name = dr[0].ToString(),
                                 Address = dr[1].ToString(),
                                 Description = dr[2].ToString(),
-                                Latitute = Convert.ToDouble(dr[3]),
+                                Latitude = Convert.ToDouble(dr[3]),
                                 Longitude = Convert.ToDouble(dr[4].ToString())
                             });
                         }                       

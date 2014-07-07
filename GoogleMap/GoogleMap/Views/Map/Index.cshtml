@@ -13,60 +13,84 @@
     <![endif]-->	
 <script src="~/Scripts/jquery-2.1.1.min.js"></script>
 <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDY0kkJiTPVd2U7aTOAwhc9ySH6oHxOIYM&sensor=false"></script>
-     <script type="text/javascript">
-         $(document).ready(function () {             
-             $.ajax({                 
-                 url: '/Map/Hotel',
-                 type: 'GET',
-                 dataType: 'json',
 
-                 success: function (data) {
-                     var mapOptions = {
-                         center: new google.maps.LatLng(data[0].Latitute, data[0].Longitude),
-                         zoom: 8,
-                         mapTypeId: google.maps.MapTypeId.ROADMAP
-                     };
+      <script type="text/jscript">
+          function showPosition(position) {
+            var url = "/Map/Hotel";
 
-                     var infoWindow = new google.maps.InfoWindow();
-                     var map = new google.maps.Map(document.getElementById("divMap"), mapOptions);
+            var lat = position.coords.latitude;
+            var long = position.coords.longitude;
 
-                     for (var i = 0; i < data.length; i++) {
-                         var myLatlng = new google.maps.LatLng(data[i].Latitute, data[i].Longitude);
+            $.get(url, { Latitude: lat, Longitude: long }, function (data) {
 
-                         var contentString = '<div id="content">' + '<div id="siteNotice">' + '</div>' + data[i].Name + '<div id="bodyContent">' + '<p>' + data[i].Description + '</p>' +
-                                                                                 '<p>' + data[i].Address + '</p>' +
-                                                                                '</div>';
+                var mapOptions = {
+                    center: new google.maps.LatLng(data[0].Latitude, data[0].Longitude),
+                    zoom: 14,
+                    mapTypeId: google.maps.MapTypeId.ROADMAP
+                };
 
-                         var infowindow = new google.maps.InfoWindow({
-                             content: contentString
-                         });
+                var infoWindow = new google.maps.InfoWindow();
+                var map = new google.maps.Map(document.getElementById("divMap"), mapOptions);
 
-                         var marker = new google.maps.Marker({
-                             position: myLatlng,
-                             map: map,
-                             title: data[i].Name
-                         });
+                for (var i = 0; i < data.length; i++) {
+                    var myLatlng = new google.maps.LatLng(data[i].Latitude, data[i].Longitude);
 
-                         google.maps.event.addListener(marker, 'click', (function (marker, i) {
-                             return function () {
-                                 var contentString = '<div id="content1">' + '<div id="divname" style="font-weight:bold;">' + data[i].Name + '</div><div id="bodyContent1">' + '<p>' + data[i].Description + '</p>' +
-                                                                                  '<div id="divaddress" style="font-weight:bold;"><p>' + data[i].Address + '</p></div>' +
-                                                                                 '</div>';
-                                 infowindow.setContent(contentString);
-                                 infowindow.open(map, marker);
-                             }
-                         })(marker, i));
+                    var contentString = '<div id="content">' + '<div id="siteNotice">' + '</div>' + data[i].Name + '<div id="bodyContent">' + '<p>' + data[i].Description + '</p>' +
+                                                                            '<p>' + data[i].Address + '</p>' +
+                                                                           '</div>';
 
-                     }
-                 },
-                 error: function (x, y, z) {
-                     alert(x + '\n' + y + '\n' + z);
-                 }
-             });
-         });
-    </script>
+                    var infowindow = new google.maps.InfoWindow({
+                        content: contentString
+                    });
+
+                    var iconBase = 'images/';
+                    var marker = new google.maps.Marker({
+                        position: myLatlng,
+                        map: map,
+                        title: data[i].Name,
+                        icon: iconBase + 'map_marker.png'
+                    });
+
+                    google.maps.event.addListener(marker, 'click', (function (marker, i) {
+                        return function () {
+                            var contentString = '<div id="content1">' + '<div id="divname" style="font-weight:bold;">' + data[i].Name + '</div><div id="bodyContent1">' + '<p>' + data[i].Description + '</p>' +
+                                                                             '<div id="divaddress" style="font-weight:bold;"><p>' + data[i].Address + '</p></div>' +
+                                                                            '</div>';
+                            infowindow.setContent(contentString);
+                            infowindow.open(map, marker);
+                        }
+                    })(marker, i));
+
+                }
+                
+            });            
+        }
+          function showError(error) {
+              if (error.code == 1) {
+                  alert("User denied the request for Geolocation.");
+              }
+              else if (error.code == 2) {
+                  alert("Location information is unavailable.");
+              }
+              else if (error.code == 3) {
+                  alert("The request to get user location timed out.");
+              }
+              else {
+                  alert("An unknown error occurred.");
+              }
+        }            
+        $(document).ready(function () {                       
+                
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(showPosition, showError);
+                }
+                else
+                {
+                    alert('It seems like Geolocation, which is required for this page, is not enabled in your browser.');
+                }                     
+        })
+    </script>       
 </head>
-
 <body>
 
 <div id="wrap">
@@ -77,9 +101,17 @@
           			<a class="navbar-brand" href="#"><img src="~/images/dilogo.jpg" class="img-responsive"></a>
         		</div>
                 <ul class="nav nav-pills pull-right mrg-top19">
+                    <li>
+                        @if (Convert.ToString(Session["UserName"]) != "")
+                        {
+                         <div style="margin-top:10px; width:auto;"><div style="float:left; font-weight:bold;">Welcome,</div>&nbsp;@Html.Label( Convert.ToString(Session["UserName"]))</div>
+                        }
+                    </li>
                   <li>
-                      @Html.ActionLink("Log Out", "Index", "Home")
-
+                      @if (Convert.ToString(Session["UserName"]) != "")
+                       {                                              
+                         @Html.ActionLink("Log Out", "Index", "Home")
+                       }
                   </li>
                 </ul>
       		</div>
