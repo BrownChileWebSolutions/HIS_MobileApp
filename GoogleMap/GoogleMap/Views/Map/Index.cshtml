@@ -24,43 +24,73 @@
             $.get(url, { Latitude: lat, Longitude: long }, function (data) {
 
                 var mapOptions = {
-                    center: new google.maps.LatLng(data[0].Latitude, data[0].Longitude),
+                    center: new google.maps.LatLng(lat, long),
                     zoom: 14,
                     mapTypeId: google.maps.MapTypeId.ROADMAP
                 };
 
                 var infoWindow = new google.maps.InfoWindow();
                 var map = new google.maps.Map(document.getElementById("divMap"), mapOptions);
+                               
 
-                for (var i = 0; i < data.length; i++) {
-                    var myLatlng = new google.maps.LatLng(data[i].Latitude, data[i].Longitude);
+                if (data.length != 0) {
+                    for (var i = 0; i < data.length; i++) {
 
-                    var contentString = '<div id="content">' + '<div id="siteNotice">' + '</div>' + data[i].Name + '<div id="bodyContent">' + '<p>' + data[i].Description + '</p>' +
-                                                                            '<p>' + data[i].Address + '</p>' +
-                                                                           '</div>';
+                        var myLatlng = new google.maps.LatLng(lat, long);
+                        var iconBase = 'images/';
+                        var marker = new google.maps.Marker({
+                            position: myLatlng,
+                            //title: "lat: " + lat + " long: " + long,
+                            title: "Current Location",
+                            icon: iconBase + 'map_marker.png'
+                        });
+                        marker.setMap(map);
 
-                    var infowindow = new google.maps.InfoWindow({
-                        content: contentString
-                    });
+                        var infowindow = new google.maps.InfoWindow();
+                        infowindow.open(map, marker);
+
+                        var myLatlng = new google.maps.LatLng(data[i].Latitude, data[i].Longitude);
+
+                        var contentString = '<div id="content">' + '<div id="siteNotice">' + '</div>' + data[i].Name + '<div id="bodyContent">' + '<p>' + data[i].Description + '</p>' +
+                                                                                '<p>' + data[i].Address + '</p>' +
+                                                                               '</div>';
+
+                        var infowindow = new google.maps.InfoWindow({
+                            content: contentString
+                        });
+
+                        var iconBase = 'images/';
+                        var marker = new google.maps.Marker({
+                            position: myLatlng,
+                            map: map,
+                            title: data[i].Name,
+                            icon: iconBase + 'map_marker.png'
+                        });
+
+                        google.maps.event.addListener(marker, 'click', (function (marker, i) {
+                            return function () {
+                                var contentString = '<div id="content1">' + '<div id="divname" style="font-weight:bold;">' + data[i].Name + '</div><div id="bodyContent1">' + '<p>' + data[i].Description + '</p>' +
+                                                                                 '<div id="divaddress" style="font-weight:bold;"><p>' + data[i].Address + '</p></div>' +
+                                                                                '</div>';
+                                infowindow.setContent(contentString);
+                                infowindow.open(map, marker);
+                            }
+                        })(marker, i));
+                    }
+                }
+                else {                                        
+
+                    var myLatlng = new google.maps.LatLng(lat, long);
 
                     var iconBase = 'images/';
                     var marker = new google.maps.Marker({
                         position: myLatlng,
-                        map: map,
-                        title: data[i].Name,
+                        title: "lat: " + lat + " long: " + long,
                         icon: iconBase + 'map_marker.png'
                     });
-
-                    google.maps.event.addListener(marker, 'click', (function (marker, i) {
-                        return function () {
-                            var contentString = '<div id="content1">' + '<div id="divname" style="font-weight:bold;">' + data[i].Name + '</div><div id="bodyContent1">' + '<p>' + data[i].Description + '</p>' +
-                                                                             '<div id="divaddress" style="font-weight:bold;"><p>' + data[i].Address + '</p></div>' +
-                                                                            '</div>';
-                            infowindow.setContent(contentString);
-                            infowindow.open(map, marker);
-                        }
-                    })(marker, i));
-
+                    marker.setMap(map);
+                    var infowindow = new google.maps.InfoWindow();
+                    infowindow.open(map, marker);
                 }
                 
             });            

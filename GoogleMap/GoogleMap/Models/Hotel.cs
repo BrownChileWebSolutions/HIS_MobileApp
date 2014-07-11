@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Configuration;
 
 namespace GoogleMap.Models
 {
@@ -12,5 +13,11 @@ namespace GoogleMap.Models
         public string Description { get; set; }
         public double Latitude { get; set; }
         public double Longitude { get; set; }
+
+        public string city { get; set; }
+        public string state { get; set; }
+        public string phone { get; set; }
+        public string group_email { get; set; }
+
     }
 }
