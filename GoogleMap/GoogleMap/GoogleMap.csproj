@@ -143,6 +143,7 @@
     <Content Include="images\logo3.png" />
     <Content Include="images\map_marker.png" />
     <Content Include="images\nency.png" />
+    <Content Include="images\red_map_marker.png" />
     <Content Include="images\search-bt.png" />
     <Content Include="images\see-hover.png" />
     <Content Include="images\see.png" />

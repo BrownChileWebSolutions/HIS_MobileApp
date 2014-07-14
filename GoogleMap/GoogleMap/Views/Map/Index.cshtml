@@ -13,9 +13,14 @@
     <![endif]-->	
 <script src="~/Scripts/jquery-2.1.1.min.js"></script>
 <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDY0kkJiTPVd2U7aTOAwhc9ySH6oHxOIYM&sensor=false"></script>
-
+<script type="text/javascript">
+       
+</script>
       <script type="text/jscript">
           function showPosition(position) {
+
+            
+            var Zoom = parseInt('@System.Web.Configuration.WebConfigurationManager.AppSettings["Zoom"]');             
             var url = "/Map/Hotel";
 
             var lat = position.coords.latitude;
@@ -25,7 +30,7 @@
 
                 var mapOptions = {
                     center: new google.maps.LatLng(lat, long),
-                    zoom: 14,
+                    zoom: Zoom,
                     mapTypeId: google.maps.MapTypeId.ROADMAP
                 };
 
@@ -64,7 +69,7 @@
                             position: myLatlng,
                             map: map,
                             title: data[i].Name,
-                            icon: iconBase + 'map_marker.png'
+                            icon: iconBase + 'red_map_marker.png'
                         });
 
                         google.maps.event.addListener(marker, 'click', (function (marker, i) {
