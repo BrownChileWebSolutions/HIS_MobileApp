@@ -131,6 +131,7 @@
     <Content Include="images\box-bg.jpg" />
     <Content Include="images\browse.png" />
     <Content Include="images\btn.jpg" />
+    <Content Include="images\currentlocation.png" />
     <Content Include="images\dashboard1px.png" />
     <Content Include="images\dilogo-main.jpg" />
     <Content Include="images\dilogo.jpg" />

@@ -14,7 +14,8 @@ namespace GoogleMap.Controllers
         // GET: /Map/
      
         public ActionResult Index()
-        {            
+        {
+            ViewBag.UserName =Convert.ToString(Session["UserName"]);
             return View();
         }
         public ActionResult Hotel(string Latitude, string Longitude)
