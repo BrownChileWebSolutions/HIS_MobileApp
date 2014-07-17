@@ -33,10 +33,12 @@ F:\Projects\GoogleMap\GoogleMap\bin\System.Web.Helpers.dll
 F:\Projects\GoogleMap\GoogleMap\bin\System.Web.Http.dll
 F:\Projects\GoogleMap\GoogleMap\bin\System.Web.Http.WebHost.dll
 F:\Projects\GoogleMap\GoogleMap\bin\System.Web.Mvc.dll
+F:\Projects\GoogleMap\GoogleMap\bin\System.Web.Optimization.dll
 F:\Projects\GoogleMap\GoogleMap\bin\System.Web.Razor.dll
 F:\Projects\GoogleMap\GoogleMap\bin\System.Web.WebPages.Deployment.dll
 F:\Projects\GoogleMap\GoogleMap\bin\System.Web.WebPages.dll
 F:\Projects\GoogleMap\GoogleMap\bin\System.Web.WebPages.Razor.dll
+F:\Projects\GoogleMap\GoogleMap\bin\WebGrease.dll
 F:\Projects\GoogleMap\GoogleMap\bin\Newtonsoft.Json.xml
 F:\Projects\GoogleMap\GoogleMap\bin\System.Net.Http.Formatting.xml
 F:\Projects\GoogleMap\GoogleMap\bin\System.Web.Helpers.xml

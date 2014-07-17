@@ -11,11 +11,9 @@ namespace GoogleMap.Controllers
     public class MapController : Controller
     {
         //
-        // GET: /Map/
-     
+        // GET: /Map/     
         public ActionResult Index()
-        {
-            ViewBag.UserName =Convert.ToString(Session["UserName"]);
+        {            
             return View();
         }
         public ActionResult Hotel(string Latitude, string Longitude)

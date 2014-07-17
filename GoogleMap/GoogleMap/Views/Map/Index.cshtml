@@ -2,205 +2,19 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Untitled Document</title>
-<link href="css/bootstrap.css" rel="stylesheet" type="text/css" media="all">
+<title>Map</title>
+@System.Web.Optimization.Styles.Render("~/Content/css")
 <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
-<style type="text/css">      
-      .controls {
-        margin-top: 16px;
-        border: 1px solid transparent;
-        border-radius: 2px 0 0 2px;
-        box-sizing: border-box;
-        -moz-box-sizing: border-box;
-        height: 32px;
-        outline: none;
-        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-      }
-    #imgcurrentlocation 
-    {
-        padding: 0;
-        margin:0;
-        position:relative;
-        width: 34px;
-        height:34px; 
-        /*background:url("../images/currentlocation.png") no-repeat;*/   
-        z-index:999999;
-        top:15px;
-        left:299px;          
-    }
-      #pac-input {
-        background-color: #fff;
-        padding: 0 11px 0 13px;
-        width: 300px;
-        font-family: Roboto;
-        font-size: 15px;
-        font-weight: 300;
-        text-overflow: ellipsis;
-      }
-
-      #pac-input:focus {
-        border-color: #4d90fe;
-        margin-left: -1px;
-        padding-left: 14px;  /* Regular padding-left + 1. */
-        width: 300px;
-      }                 
-    
-
-
-    </style>
 <!--<link href="css/bootstrap-theme.min.css" rel="stylesheet" type="text/css" media="all">-->
 <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
       <script src="js/html5shiv.js"></script>
       <script src="js/respond.min.js"></script>
     <![endif]-->	
-
-<script src="~/Scripts/jquery-2.1.1.min.js"></script>
 <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDY0kkJiTPVd2U7aTOAwhc9ySH6oHxOIYM&sensor=false&libraries=places"></script>
-<script type="text/javascript">       
-</script>
-   <script type="text/jscript">
-
-       var map;
-       var geocoder;
-       var Zoom;
-       var markerSet = [];
-       function InitializeMap() {
-           Zoom = parseInt('@System.Web.Configuration.WebConfigurationManager.AppSettings["Zoom"]');
-           var latlng = new google.maps.LatLng(39.5500507, -105.78206740000002);
-           var mapOptions =
-           {
-               zoom: Zoom,
-               center: latlng,
-               mapTypeId: google.maps.MapTypeId.ROADMAP,
-               disableDefaultUI: true
-           };
-           map = new google.maps.Map(document.getElementById("divMap"), mapOptions);
-       }
-       function ShowLocation(lat, long) {
-           var url = "/Map/Hotel";
-           $.get(url, { Latitude: lat, Longitude: long }, function (data) {
-
-               var mapOptions = {
-                   center: new google.maps.LatLng(lat, long),
-                   zoom: Zoom,
-                   mapTypeId: google.maps.MapTypeId.ROADMAP
-               };
-               var infoWindow = new google.maps.InfoWindow();
-               CleanMarker();
-               var myLatlng = new google.maps.LatLng(lat, long);
-               var iconBase = 'images/';
-               var marker = new google.maps.Marker({
-                   position: myLatlng,
-                   title: "Current Location",
-                   icon: iconBase + 'map_marker.png'
-               });
-               marker.setMap(map);
-               map.setCenter(myLatlng);
-               markerSet.push(marker);
-               var infowindow = new google.maps.InfoWindow();
-               infowindow.open(map, marker);
-               if (data.length != 0) {
-                   for (var i = 0; i < data.length; i++) {
-
-                      
-                       var myLatlng = new google.maps.LatLng(data[i].Latitude, data[i].Longitude);
-                       var contentString = '<div id="content">' + '<div id="siteNotice">' + '</div>' + data[i].Name + '<div id="bodyContent">' + '<p>' + data[i].Description + '</p>' +
-                                                                               '<p>' + data[i].Address + '</p>' +
-                                                                              '</div>';
-
-                       var infowindow = new google.maps.InfoWindow({
-                           content: contentString
-                       });
-                       var iconBase = 'images/';
-                       var marker = new google.maps.Marker({
-                           position: myLatlng,
-                           map: map,
-                           title: data[i].Name,
-                           icon: iconBase + 'red_map_marker.png'
-                       });
-                       markerSet.push(marker);
-                       google.maps.event.addListener(marker, 'click', (function (marker, i) {
-                           return function () {
-                               var contentString = '<div id="content1">' + '<div id="divname" style="font-weight:bold;">' + data[i].Name + '</div><div id="bodyContent1">' + '<p>' + data[i].Description + '</p>' +
-                                                                                '<div id="divaddress" style="font-weight:bold;"><p>' + data[i].Address + '</p></div>' +
-                                                                               '</div>';
-                               infowindow.setContent(contentString);
-                               infowindow.open(map, marker);
-                           }
-                       })(marker, i));
-                   }
-               }
-               else {
-
-
-               }
-           });
-       }
-
-       function showPosition(position) {
-
-           var lat = position.coords.latitude;
-           var long = position.coords.longitude;
-           ShowLocation(lat, long);
-       }
-       function showError(error) {
-           if (error.code == 1) {
-               alert("User denied the request for Geolocation.");
-           }
-           else if (error.code == 2) {
-               alert("Location information is unavailable.");
-           }
-           else if (error.code == 3) {
-               alert("The request to get user location timed out.");
-           }
-           else {
-               alert("An unknown error occurred.");
-           }
-       }
-       function CleanMarker() {
-           for (var i = 0; i < markerSet.length ; i++) {
-               markerSet[i].setMap(null);
-           }
-           markerSet = [];
-       }
-       $(document).ready(function () {
-
-           InitializeMap();
-
-           var input = (document.getElementById('pac-input'));
-           map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
-           var autocomplete = new google.maps.places.Autocomplete(input);
-           autocomplete.bindTo('bounds', map);
-
-           if (navigator.geolocation) {
-               navigator.geolocation.getCurrentPosition(showPosition, showError);
-           }
-           else {
-               alert('It seems like Geolocation, which is required for this page, is not enabled in your browser.');
-           }
-           google.maps.event.addListener(autocomplete, 'place_changed', function () {
-               var place = autocomplete.getPlace();
-               var lat = place.geometry.location.lat();
-               var long = place.geometry.location.lng();
-               ShowLocation(lat, long);
-           });
-           $("#imgcurrentlocation").click(function () {
-               document.getElementById('pac-input').value = "";
-               if (navigator.geolocation) {
-                   navigator.geolocation.getCurrentPosition(showPosition, showError);
-               }
-               else {
-                   alert('It seems like Geolocation, which is required for this page, is not enabled in your browser.');
-               }
-           });
-       })
-    </script>       
-
-    
 </head>
 <body>
-
+    <input type="hidden" id="zoomLevel" value="@System.Web.Configuration.WebConfigurationManager.AppSettings["Zoom"]" />
 <div id="wrap">
 	<header>
     	<div class="navbar navbar-default" style="margin-bottom:0;">
@@ -237,7 +51,9 @@
         		<p class="text-muted credit copy-txt">© Copyrights Survey System. All Rights Reserved.</p>
       		</div>
     	</div>
-	</footer>	
+	</footer>   
+ @System.Web.Optimization.Scripts.Render("~/bundles/jquery")
+ <script src="~/Scripts/map_index.js" ></script>
 </body>
 </html>
 
