@@ -1,0 +1,59 @@
+﻿<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Map</title>
+@System.Web.Optimization.Styles.Render("~/Content/css")
+<link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+<!--<link href="css/bootstrap-theme.min.css" rel="stylesheet" type="text/css" media="all">-->
+<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="js/html5shiv.js"></script>
+      <script src="js/respond.min.js"></script>
+    <![endif]-->	
+<script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDY0kkJiTPVd2U7aTOAwhc9ySH6oHxOIYM&sensor=false&libraries=places"></script>
+</head>
+<body>
+    <input type="hidden" id="zoomLevel" value="@System.Web.Configuration.WebConfigurationManager.AppSettings["Zoom"]" />
+<div id="wrap">
+	<header>
+    	<div class="navbar navbar-default" style="margin-bottom:0;">
+      		<div class="container">
+        		<div class="navbar-header pull-left">
+          			<a class="navbar-brand" href="#"><img src="~/images/dilogo.jpg" class="img-responsive"></a>
+        		</div>
+                <ul class="nav nav-pills pull-right mrg-top19">
+                    <li>
+                        @if (Convert.ToString(Session["UserName"]) != "")
+                        {                            
+                         <div style="margin-top:10px; width:auto;"><div style="float:left; font-weight:bold;">Welcome,</div>&nbsp;@Html.Label( Convert.ToString(Session["UserName"]))</div>
+                        }
+                    </li>
+                  <li>
+                      @if (Convert.ToString(Session["UserName"]) != "")
+                       {                                              
+                         @Html.ActionLink("Log Out", "Index", "Home")
+                       }
+                  </li>
+                </ul>
+      		</div>
+    	</div>
+	</header>	
+	<section>        
+        <input id="pac-input" class="controls" type="text"  placeholder="Enter a location" >           
+        <div id="imgcurrentlocation" class="controls"><img src="~/images/currentlocation.png" width="33px" title="Current Location" /></div>
+		<div id="divMap" style="width:100%; min-height:500px; height:100%; max-height:100%; top:-34px;"></div>        
+	</section>
+</div>	
+	<footer>
+		<div id="footer">
+      		<div class="container">
+        		<p class="text-muted credit copy-txt">© Copyrights Survey System. All Rights Reserved.</p>
+      		</div>
+    	</div>
+	</footer>   
+ @System.Web.Optimization.Scripts.Render("~/bundles/jquery")
+ <script src="~/Scripts/map_index.js" ></script>
+</body>
+</html>
+
