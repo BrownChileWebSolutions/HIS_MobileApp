@@ -2,6 +2,7 @@
 var geocoder;
 var Zoom;
 var markerSet = [];
+var infoWindow;
 function InitializeMap() {
     Zoom = parseInt($('#zoomLevel').val());
     var latlng = new google.maps.LatLng(39.5500507, -105.78206740000002);
@@ -19,10 +20,10 @@ function ShowLocation(lat, long) {
     $.get(url, { Latitude: lat, Longitude: long }, function (data) {       
         var mapOptions = {
             center: new google.maps.LatLng(lat, long),
-            zoom: 15,
+            zoom: Zoom,
             mapTypeId: google.maps.MapTypeId.ROADMAP
         };
-        var infoWindow = new google.maps.InfoWindow();
+        infoWindow = new google.maps.InfoWindow();
         CleanMarker();
         var myLatlng = new google.maps.LatLng(lat, long);
         var iconBase = 'images/';
@@ -34,22 +35,12 @@ function ShowLocation(lat, long) {
         marker.setMap(map);
         map.setCenter(myLatlng);
         markerSet.push(marker);
-        var infowindow = new google.maps.InfoWindow();
+        infowindow = new google.maps.InfoWindow();
         infowindow.open(map, marker);
         if (data.length != 0) {
             for (var i = 0; i < data.length; i++) {
-
                
-                var myLatlng = new google.maps.LatLng(data[i].Latitude, data[i].Longitude);
-                var contentString = '<div id="content">' + '<div id="siteNotice">' + '</div>' + data[i].Name + '<div id="bodyContent">' + '<p>' + data[i].Description + '</p>' +
-                                                                        '<p>' + data[i].Address + '<br/>' + data[i].Phone + '</p>' +
-                                                                       '</div>';
-               
-
-                var infowindow = new google.maps.InfoWindow({
-                    content: contentString
-                });
-                var iconBase = 'images/';
+                myLatlng = new google.maps.LatLng(data[i].Latitude, data[i].Longitude);                
                 var marker = new google.maps.Marker({
                     position: myLatlng,
                     map: map,
@@ -59,7 +50,7 @@ function ShowLocation(lat, long) {
                 markerSet.push(marker);
                 google.maps.event.addListener(marker, 'click', (function (marker, i) {
                     return function () {
-                        var contentString = '<div id="content1">' + '<div id="divname" style="font-weight:bold;">' + data[i].Name + '</div><div id="bodyContent1">' + '<p>' + data[i].Description + '</p>' + '<div id="divaddress" style="font-weight:bold;"><p>' + data[i].Address + '<br/><a href="tel:' + data[i].Phone + '">' + data[i].Phone + '</a></p></div>' + '</div>';
+                        var contentString = '<div style="font-family: Open Sans, sans-serif;">' + '<div style="font-weight:bold;">' + data[i].Name + '</div><div>' + data[i].Address + '<div style="font-weight:bold;"><p>' + data[i].City + ' - ' + data[i].State + ' <br/><a href="tel:' + data[i].Phone + '">' + data[i].Phone + '</a></p></div>' + '</div>';
                         infowindow.setContent(contentString);
                         infowindow.open(map, marker);
                     }
@@ -71,12 +62,14 @@ function ShowLocation(lat, long) {
         }
     });
 }
+
 function showPosition(position) {
 
     var lat = position.coords.latitude;
     var long = position.coords.longitude;
     ShowLocation(lat, long);
 }
+
 function showError(error) {
     if (error.code == 1) {
         alert("User denied the request for Geolocation.");

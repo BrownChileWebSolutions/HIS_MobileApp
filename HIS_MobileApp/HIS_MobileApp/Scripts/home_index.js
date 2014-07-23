@@ -1,14 +1,11 @@
 ﻿$(document).ready(function () {
     $('#txtUserName').focus();
     $("#btnSave").click(function () {
-        var user = new Object();
-        user.UserName = $('#txtUserName').val();
-        user.Password = $('#txtPassword').val();
         $.ajax({
             url: '/User/IsAuthorized',
             type: 'POST',
             dataType: 'json',
-            data: user,
+            data: { UserName: $('#txtUserName').val(), Password: $('#txtPassword').val() },
             success: function (data) {
                 if (data.result == "Success") {
                     var url = '/Map';
@@ -23,5 +20,5 @@
                 console.log(jqXHR.responseText);
             }
         });
-    });
+    });    
 });

@@ -50,6 +50,5 @@ F:\Projects\HIS_MobileApp\HIS_MobileApp\bin\System.Web.Razor.xml
 F:\Projects\HIS_MobileApp\HIS_MobileApp\bin\System.Web.WebPages.xml
 F:\Projects\HIS_MobileApp\HIS_MobileApp\bin\System.Web.WebPages.Deployment.xml
 F:\Projects\HIS_MobileApp\HIS_MobileApp\bin\System.Web.WebPages.Razor.xml
-F:\Projects\HIS_MobileApp\HIS_MobileApp\obj\Debug\HIS_MobileApp.csprojResolveAssemblyReference.cache
 F:\Projects\HIS_MobileApp\HIS_MobileApp\obj\Debug\HIS_MobileApp.dll
 F:\Projects\HIS_MobileApp\HIS_MobileApp\obj\Debug\HIS_MobileApp.pdb
