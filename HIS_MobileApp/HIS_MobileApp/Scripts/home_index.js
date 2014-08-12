@@ -17,7 +17,8 @@
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 //console.log("jqXHR= " + jqXHR.responseText + ", status code= " + jqXHR.statusCode + ", errorThrown= " + errorThrown);                        
-                console.log(jqXHR.responseText);
+                //console.log(jqXHR.responseText);
+                $('label[for=Name]').html(errorThrown);
             }
         });
     });    

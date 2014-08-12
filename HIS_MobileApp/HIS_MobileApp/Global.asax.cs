@@ -7,6 +7,7 @@ using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using HIS_MobileApp.Services;
 
 namespace HIS_MobileApp
 {
@@ -23,6 +24,12 @@ namespace HIS_MobileApp
             
             RegisterBundles(BundleTable.Bundles);
             BundleTable.EnableOptimizations = true; 
+        }
+        void Application_Error(object sender, EventArgs e)
+        {           
+            HttpUnhandledException httpUnhandledException =
+               new HttpUnhandledException(Server.GetLastError().Message, Server.GetLastError());
+            EmailService.SendMail(httpUnhandledException.GetHtmlErrorMessage());
         }
         public static void RegisterBundles(BundleCollection bundles)
         {

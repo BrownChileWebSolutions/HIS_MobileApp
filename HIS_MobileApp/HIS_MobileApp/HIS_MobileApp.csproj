@@ -119,6 +119,7 @@
     <Compile Include="Models\Hotel.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\EmailService.cs" />
     <Compile Include="Services\HotelService.cs" />
     <Compile Include="Services\UserService.cs" />
   </ItemGroup>
